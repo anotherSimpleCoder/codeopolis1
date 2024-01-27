@@ -1,0 +1,1 @@
+package net.martinburger.sesqa.programming.codeopolis.domainmodel.plants;
