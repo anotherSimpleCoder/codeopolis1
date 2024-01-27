@@ -113,7 +113,7 @@ public class City implements CityState {
         this.bushelsFed = bushelsToFeed;
     }
     
-    public void plant(int acresPerResident, int bushelsPerAcre, int[] acresToPlant) throws Exception {
+    public void newPlant(int acresPerResident, int bushelsPerAcre, int[] acresToPlant) throws Exception {
     	int totalAcresToPlant = Arrays.stream(acresToPlant).reduce(0, (subtotal, element)-> subtotal += element);
     	
     	 int freeAcres = this.acres - this.plantedAcres;
@@ -143,7 +143,7 @@ public class City implements CityState {
      * @param bushelsPerAcre   The number of bushels required per acre.
      * @param acresToPlant     The number of acres to plant.
      * @throws Exception       If there's not enough land, bushels, or population.
-     
+     */
     public void plant(int acresPerResident, int bushelsPerAcre, int acresToPlant) throws Exception {
         int freeAcres = this.acres - this.plantedAcres;
 
@@ -163,7 +163,7 @@ public class City implements CityState {
         //this.bushels -= bushelsPerAcre * acresToPlant;
         this.depot.takeOut(bushelsPerAcre * acresToPlant);
         this.plantedAcres += acresToPlant;
-    }*/
+    }
 
     /**
      * Returns a string representation of the city's attributes.

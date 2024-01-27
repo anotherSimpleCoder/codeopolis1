@@ -54,7 +54,7 @@ public class CityTest {
         assertTrue(testCity.getDepot().getFillLevel() < oldFillLevel);
     }
 
-    /*
+    
     @Test
     public void testPlant() {
         //Create test city
@@ -69,8 +69,8 @@ public class CityTest {
         assertTrue(testCity.getPlantedAcres() > oldPlantedAcres);
         assertTrue(testCity.getDepot().getFillLevel() < oldFillLevel);
         //assertTrue(testCity.getBushels() < oldBushels);
-    }*/
-    
+    }
+    /*
     @Test
     public void testPlant() {
     	//Create test city
@@ -85,7 +85,7 @@ public class CityTest {
         assertDoesNotThrow(()-> testCity.plant(10, 1, acresToPlant));
         assertEquals(testCity.getPlantedAcres(), totalAcresToPlant);
         assertTrue(testCity.getDepot().getFillLevel() < oldFillLevel);
-    }
+    }*/
     
     @Test
     public void testCalculateStarvation() {
@@ -182,7 +182,7 @@ public class CityTest {
         assertThrows(Exception.class, ()->testCity.feed(randomNegative));
     }
 
-    /*
+    
     @Test
     public void testPlantFail() {
     	City testCity = new City("Test city", 100, 1000, 0, 30);
@@ -193,8 +193,9 @@ public class CityTest {
         //Test for negative input
         int randomNegative = (new Random()).nextInt(-100, -1);
         assertThrows(Exception.class, ()->testCity.plant(-10, 1,randomNegative));
-    }*/
+    }
     
+    /*
     public void testPlantFail() {
     	City testCity = new City("Test city", 100, 1000, 0, 30);
     	testCity.setBushels(0);
@@ -206,5 +207,5 @@ public class CityTest {
     	Arrays.stream(acresToPlant).map((element)->(new Random()).nextInt(-100, -1));
        // int randomNegative = (new Random()).nextInt(-100, -1);
         assertThrows(Exception.class, ()->testCity.plant(-10, 1, acresToPlant));
-    }
+    }*/
 }

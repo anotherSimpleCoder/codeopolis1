@@ -51,9 +51,9 @@ public interface UserInterface {
    * @param acrePerResident The number of acres required per resident.
    * @param city            The current city.
    * @return The numberS of acres planted per crops.
-   * */
+   * 
   int[] plant(int bushelsPerAcre, int acrePerResident, CityState cityState);
-  
+  */
   /**
    * Allows the user to plant crops on acres of land.
    *
@@ -61,9 +61,9 @@ public interface UserInterface {
    * @param acrePerResident The number of acres required per resident.
    * @param city            The current city.
    * @return The number of acres planted.
-   
+   */   
   int plant(int bushelsPerAcre, int acrePerResident, CityState cityState);
-*/
+
   /**
    * Handles the end of a turn.
    *

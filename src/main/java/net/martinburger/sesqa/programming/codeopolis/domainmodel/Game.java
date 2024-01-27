@@ -129,7 +129,7 @@ public class Game {
     
     /**
      * Displays the status menu and prompts the user to plant acres for multiple different crops.
-     * */
+     * 
     private void plantAcres() {
     	try {
     		int[] acresToPlant = this.userInterface.plant(this.gameConfig.getBushelsPerAcre(), this.gameConfig.getAcrePerResident(), city);
@@ -138,13 +138,13 @@ public class Game {
     	} catch(Exception e) {
     		e.printStackTrace();
     	}
-    }
+    }*/
     
     /**
      * Displays the status menu and prompts the user to plant acres.
      * Calls the `plant` method of the `City` class.
      * Handles exceptions and prints the stack trace if an error occurs.
-     
+     */
     private void plantAcres() {
         try {
             int acresPlant = this.userInterface.plant(this.gameConfig.getBushelsPerAcre(), this.gameConfig.getAcrePerResident(), this.city);
@@ -153,7 +153,7 @@ public class Game {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     /**
      * Executes a game turn by calling the `runTurn` method of the `City` class.

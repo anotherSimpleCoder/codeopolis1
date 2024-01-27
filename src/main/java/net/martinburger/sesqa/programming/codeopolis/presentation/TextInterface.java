@@ -84,7 +84,7 @@ public class TextInterface implements UserInterface {
      * Displays the plant menu and prompts the user for the number of acres to plant with seeds.
      *
      * @return The user's input for the number of acres to plant.
-     
+     */
     public int plant(int bushelsPerAcre, int acrePerResident, CityState cityState) {
     	this.statusMenu(cityState);
     	System.out.println();
@@ -96,8 +96,8 @@ public class TextInterface implements UserInterface {
                 """, bushelsPerAcre, acrePerResident);
     	
         return this.scanner.nextInt();
-    }*/
-    
+    }
+    /*
     public int[] plant(int bushelsPerAcre, int acrePerResident, CityState cityState) {
     	String[] plants = {"wheat", "barley", "rye", "millet", "corn", "rice"};
     	int[] acresToPlant = new int[plants.length];
@@ -117,7 +117,7 @@ public class TextInterface implements UserInterface {
     	}
     	
     	return acresToPlant;
-    }
+    }*/
 
     /**
      * Displays the turn result menu with information about the current turn.
