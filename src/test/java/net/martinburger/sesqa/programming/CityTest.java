@@ -8,6 +8,7 @@ import java.util.Random;
 import org.junit.jupiter.api.Test;
 
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.City;
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
 
 public class CityTest {
     @Test
@@ -53,31 +54,13 @@ public class CityTest {
         assertDoesNotThrow(()->testCity.feed(10));
         assertTrue(testCity.getDepot().getFillLevel() < oldFillLevel);
     }
-
     
-    @Test
-    public void testPlant() {
-        //Create test city
-        City testCity = new City("Test city", 100, 1000, 2800, 30);
-        
-        //int oldBushels = testCity.getBushels();
-        int oldFillLevel = testCity.getDepot().getFillLevel();
-        int oldPlantedAcres = testCity.getPlantedAcres();
-        
-        //Run plant method
-        assertDoesNotThrow(()-> testCity.plant(10, 1, 10));
-        assertTrue(testCity.getPlantedAcres() > oldPlantedAcres);
-        assertTrue(testCity.getDepot().getFillLevel() < oldFillLevel);
-        //assertTrue(testCity.getBushels() < oldBushels);
-    }
-    /*
     @Test
     public void testPlant() {
     	//Create test city
         City testCity = new City("Test city", 100, 1000, 2800, 30);
         
         int oldFillLevel = testCity.getDepot().getFillLevel();
-        int oldPlantedAcres = testCity.getPlantedAcres();
         
         int acresToPlant[] = {10,20,30,10,10,20};
         int totalAcresToPlant = Arrays.stream(acresToPlant).reduce(0, (subtotal, element)-> subtotal += element);
@@ -85,7 +68,7 @@ public class CityTest {
         assertDoesNotThrow(()-> testCity.plant(10, 1, acresToPlant));
         assertEquals(testCity.getPlantedAcres(), totalAcresToPlant);
         assertTrue(testCity.getDepot().getFillLevel() < oldFillLevel);
-    }*/
+    }
     
     @Test
     public void testCalculateStarvation() {
@@ -129,10 +112,23 @@ public class CityTest {
     public void testCalculateNewHarvest() {
     	//Create test city
         City testCity = new City("Test city", 100, 1000, 2800, 30);
-        testCity.setPlantedAcres(10);
+        int acresToPlant[] = {10,20,30,10,10,20};
+        Conditions testConditions = Conditions.generateRandomConditions();
+        testConditions.setSoilConditions(1.0f);
+        testConditions.setAverageTemperatureSummer(18.0f);
+        testConditions.setAverageTemperatureWinter(3.3f);
+        testConditions.setDrought(false);
+        testConditions.setFusarium(false);
+        testConditions.setLeafDrought(false);
+        testConditions.setPowdryMildrew(false);
+        testConditions.setBarleyGoutFly(false);
+        testConditions.setDelioFly(false);
+        testConditions.setFritFly(false);
         
-        int newHarvest = testCity.calculateNewHarvest(0.5f, 1);
-        assertEquals(newHarvest, 5);
+        assertDoesNotThrow(()-> testCity.plant(10, 1, acresToPlant));
+        
+        int newHarvest = testCity.calculateNewHarvest(0.5f, 1, testConditions);
+        assertEquals(newHarvest, 50);
     }
     
     @Test
@@ -181,21 +177,8 @@ public class CityTest {
         int randomNegative = (new Random()).nextInt(-100, -1);
         assertThrows(Exception.class, ()->testCity.feed(randomNegative));
     }
-
     
     @Test
-    public void testPlantFail() {
-    	City testCity = new City("Test city", 100, 1000, 0, 30);
-    	testCity.setBushels(0);
-    	
-    	assertThrows(Exception.class, ()->testCity.plant(10, 1,testCity.getAcres() + 1));
-    	
-        //Test for negative input
-        int randomNegative = (new Random()).nextInt(-100, -1);
-        assertThrows(Exception.class, ()->testCity.plant(-10, 1,randomNegative));
-    }
-    
-    /*
     public void testPlantFail() {
     	City testCity = new City("Test city", 100, 1000, 0, 30);
     	testCity.setBushels(0);
@@ -207,5 +190,28 @@ public class CityTest {
     	Arrays.stream(acresToPlant).map((element)->(new Random()).nextInt(-100, -1));
        // int randomNegative = (new Random()).nextInt(-100, -1);
         assertThrows(Exception.class, ()->testCity.plant(-10, 1, acresToPlant));
-    }*/
+    }
+    
+    @Test
+    public void testCalculateNewHarvestFail() {
+    	//Create test city
+        City testCity = new City("Test city", 100, 1000, 2800, 30);
+        int acresToPlant[] = {10,20,30,10,10,20};
+        Conditions testConditions = Conditions.generateRandomConditions();
+        testConditions.setSoilConditions(1.0f);
+        testConditions.setAverageTemperatureSummer(17.0f);
+        testConditions.setAverageTemperatureWinter(3.2f);
+        testConditions.setDrought(true);
+        testConditions.setFusarium(false);
+        testConditions.setLeafDrought(true);
+        testConditions.setPowdryMildrew(false);
+        testConditions.setBarleyGoutFly(true);
+        testConditions.setDelioFly(false);
+        testConditions.setFritFly(true);
+        
+        assertDoesNotThrow(()-> testCity.plant(10, 1, acresToPlant));
+        
+        int newHarvest = testCity.calculateNewHarvest(0.5f, 1, testConditions);
+        assertNotEquals(newHarvest, 50);
+    }
 }

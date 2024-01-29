@@ -22,7 +22,7 @@ public class Rye extends Grain {
      */
     @Override
     public void pestInfestation(Conditions conditions) {
-        // TODO Auto-generated method stub
+        // Nothing to do here!
     }
 
     /**

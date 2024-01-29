@@ -91,7 +91,6 @@ public class Game {
      * Calls the `sellLand` method of the `City` class.
      * Handles exceptions and prints the stack trace if an error occurs.
      */
-    //FIXME Try to fix the plant error by asking for valid bushel amount
     private void sellLand() {
     	while(true) {
             try {
@@ -104,7 +103,7 @@ public class Game {
                 return;
                 
             } catch (Exception e) {
-            	System.err.println(e.getMessage());
+            	this.userInterface.illegalInput(e.getMessage());
             }
     	}
     }
@@ -129,7 +128,7 @@ public class Game {
     
     /**
      * Displays the status menu and prompts the user to plant acres for multiple different crops.
-     * 
+     */
     private void plantAcres() {
     	try {
     		int[] acresToPlant = this.userInterface.plant(this.gameConfig.getBushelsPerAcre(), this.gameConfig.getAcrePerResident(), city);
@@ -138,13 +137,13 @@ public class Game {
     	} catch(Exception e) {
     		e.printStackTrace();
     	}
-    }*/
+    }
     
     /**
      * Displays the status menu and prompts the user to plant acres.
      * Calls the `plant` method of the `City` class.
      * Handles exceptions and prints the stack trace if an error occurs.
-     */
+     
     private void plantAcres() {
         try {
             int acresPlant = this.userInterface.plant(this.gameConfig.getBushelsPerAcre(), this.gameConfig.getAcrePerResident(), this.city);
@@ -153,7 +152,7 @@ public class Game {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     /**
      * Executes a game turn by calling the `runTurn` method of the `City` class.

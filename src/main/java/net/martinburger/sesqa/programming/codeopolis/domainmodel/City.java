@@ -12,7 +12,13 @@ package net.martinburger.sesqa.programming.codeopolis.domainmodel;
 import java.util.Arrays;
 import java.util.Random;
 
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Barley;
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Corn;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Grain;
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Millet;
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Rice;
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Rye;
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Wheat;
 import net.martinburger.sesqa.programming.codeopolis.utils.TurnResult;
 
 public class City implements CityState {
@@ -21,7 +27,7 @@ public class City implements CityState {
     private int acres;
     private int population;
     private int bushelsFed;
-    private int plantedAcres;
+    private Grain[] planted;
     private int pastYears;
     private Depot depot;
     private Harvest harvest;
@@ -40,12 +46,19 @@ public class City implements CityState {
         this.bushels = 0;
         this.population = population;
         this.bushelsFed = 0;
-        this.plantedAcres = 0;
+        this.planted = new Grain[6];
         this.pastYears = 0;
         this.harvest = new Harvest(0, 0);
         this.depot = new Depot(capacity) {{
         	this.store(new Harvest(bushels, -1));
         }};
+        
+        planted[0] = new Wheat();
+        planted[1] = new Barley();
+        planted[2] = new Rye();
+        planted[3] = new Millet();
+        planted[4] = new Corn();
+        planted[5] = new Rice();
     }
 
     /**
@@ -113,56 +126,36 @@ public class City implements CityState {
         this.bushelsFed = bushelsToFeed;
     }
     
-    public void newPlant(int acresPerResident, int bushelsPerAcre, int[] acresToPlant) throws Exception {
-    	int totalAcresToPlant = Arrays.stream(acresToPlant).reduce(0, (subtotal, element)-> subtotal += element);
+    public void plant(int acresPerResident, int bushelsPerAcre, int[] acresToPlant) throws Exception {
+    	//Get the total amount of total acres to be planted
+    	int totalAcresToPlant = Arrays.stream(acresToPlant).reduce(0, (subtotal, e) -> subtotal += e);
     	
-    	 int freeAcres = this.acres - this.plantedAcres;
-
-         if (freeAcres <= 0) {
-             throw new Exception("Not enough land to plant seeds!");
-         }
-
-         if (this.depot.getFillLevel() * bushelsPerAcre == 0 || this.depot.getFillLevel() * bushelsPerAcre < totalAcresToPlant) {
-             throw new Exception("Not enough bushels available for planting seeds!");
-         }
-
-         if ((acres / acresPerResident) > this.population) {
-             throw new Exception("Not enough population to plant!");
-         }
-
-         // Do the planting
-         //this.bushels -= bushelsPerAcre * acresToPlant;
-         this.depot.takeOut(bushelsPerAcre * totalAcresToPlant);
-         this.plantedAcres += totalAcresToPlant;
-    }
-
-    /**
-     * Plants acres of land in the city, consuming one bushel per acre.
-     * 
-     * @param acresPerResident The number of acres required per resident.
-     * @param bushelsPerAcre   The number of bushels required per acre.
-     * @param acresToPlant     The number of acres to plant.
-     * @throws Exception       If there's not enough land, bushels, or population.
-     */
-    public void plant(int acresPerResident, int bushelsPerAcre, int acresToPlant) throws Exception {
-        int freeAcres = this.acres - this.plantedAcres;
-
-        if (freeAcres <= 0) {
+    	//Get free acres from that
+    	int freeAcres = this.acres - totalAcresToPlant;
+    	
+    	//Check if acres are available
+    	if (freeAcres <= 0) {
             throw new Exception("Not enough land to plant seeds!");
         }
-
-        if (this.depot.getFillLevel() * bushelsPerAcre == 0 || this.depot.getFillLevel() * bushelsPerAcre < acresToPlant) {
-            throw new Exception("Not enough bushels available for planting seeds!");
-        }
-
-        if ((acres / acresPerResident) > this.population) {
-            throw new Exception("Not enough population to plant!");
-        }
-
-        // Do the planting
-        //this.bushels -= bushelsPerAcre * acresToPlant;
-        this.depot.takeOut(bushelsPerAcre * acresToPlant);
-        this.plantedAcres += acresToPlant;
+    	
+    	//Check if there is enough bushels for planting
+    	 if (this.depot.getFillLevel() * bushelsPerAcre == 0 || this.depot.getFillLevel() * bushelsPerAcre < totalAcresToPlant) {
+             throw new Exception("Not enough bushels available for planting seeds!");
+         }
+    	
+    	//Check if there is enough population for the planting
+    	 if ((this.acres / acresPerResident) > this.population) {
+             throw new Exception("Not enough population to plant!");
+         }
+    	 
+    	 
+    	 //Do the planting
+    	 this.depot.takeOut(bushelsPerAcre * totalAcresToPlant);
+    	 
+    	 for(int i = 0; i < this.planted.length; i++) {
+    		 int toPlant = acresToPlant[i];
+    		 this.planted[i].plant(toPlant);
+    	 }
     }
 
     /**
@@ -191,7 +184,7 @@ public class City implements CityState {
         int starvation = this.calculateStarvation(bushelsPerResident);
         int starvedPercentage = this.calculateStarvedPercentage(starvation);
         int newResidents = this.calculateNewResidents(random.nextFloat(0.0f, 0.04f), starvedPercentage);
-        int newHarvest = this.calculateNewHarvest(random.nextFloat(0.1f, 1.0f) ,harvestFactor);
+        int newHarvest = this.calculateNewHarvest(random.nextFloat(0.1f, 1.0f) ,harvestFactor, Conditions.generateRandomConditions());
         int eatenByRats = this.calculateEatenByRats(random.nextFloat(0, rateInfestation));
 
         // Apply them to city
@@ -253,11 +246,18 @@ public class City implements CityState {
      * @param harvestFactor The harvest factor affecting crop yield.
      * @return The new harvest amount.
      */
-    public int calculateNewHarvest(float z, float harvestFactor) {
-        float harvestRate = z * harvestFactor;
-        float newHarvest = (float) (this.plantedAcres) * harvestRate;
-        
-        
+    public int calculateNewHarvest(float z, float harvestFactor, Conditions grainConditions) {
+    	for(Grain g: this.planted) {
+    		g.grow(grainConditions);
+    		g.drought(grainConditions);
+    		g.pestInfestation(grainConditions);
+    		g.diseaseOutbreak(grainConditions);
+    		
+    	}
+    	
+    	//Calculate harvest
+    	float harvestRate = z * harvestFactor;
+        float newHarvest = (float) (this.getPlantedAcres()) * harvestRate;
         
         return Math.round(newHarvest);
     }
@@ -296,7 +296,13 @@ public class City implements CityState {
      * @return The number of planted acres in the city.
      */
     public int getPlantedAcres() {
-        return plantedAcres;
+    	int res = 0;
+    	
+    	for(Grain g: this.planted) {
+    		res += g.harvest() / g.getBaseYield();
+    	}
+    	
+        return res;
     }
 
     /**
@@ -328,9 +334,5 @@ public class City implements CityState {
     
     public void setBushelsFed(int bushelsFed) {
 		this.bushelsFed = bushelsFed;
-	}
-    
-    public void setPlantedAcres(int plantedAcres) {
-		this.plantedAcres = plantedAcres;
 	}
 }

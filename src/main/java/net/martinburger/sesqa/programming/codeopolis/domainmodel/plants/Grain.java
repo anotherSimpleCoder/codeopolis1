@@ -35,11 +35,8 @@ public abstract class Grain {
         this.conditionsReduction = conditionsReduction;
         this.droughtReduction = droughtReduction;
 
-        float summerMean = (Conditions.SUMMER_TEMPERATURE_HIGHER - Conditions.SUMMER_TEMPERATURE_LOWER)/2;
-        float winterMean = (Conditions.WINTER_TEMPERATURE_HIGHER - Conditions.WINTER_TEMPERATURE_LOWER)/2;
-
-        this.optimalTemperatureSummer = (summerMean * this.allowedTemperatureOffset) + summerMean;
-        this.optimalTemperatureWinter = (winterMean * this.allowedTemperatureOffset) + winterMean;
+        this.optimalTemperatureSummer = 18.0f;
+        this.optimalTemperatureWinter = 3.3f;
     }
 
     public static int[] getDistributedGrainSet(int bushels) {
@@ -135,7 +132,7 @@ public abstract class Grain {
      * Returns the base yield of the plant.
      * @return The base yield of the plant.
      */
-    protected int getBaseYield() {
+    public int getBaseYield() {
         return baseYield;
     }
 

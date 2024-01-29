@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Rye;
 
-//TODO Make the percentage reduction tests more precise towards assertions
 public class RyeTest {
 	Rye testRye = new Rye();
 	
