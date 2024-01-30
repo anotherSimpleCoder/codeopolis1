@@ -161,13 +161,13 @@ public class Game {
      * 
      * @throws Exception If the number of residents becomes zero or if the starved percentage is 50% or higher.
      */
-    private void doTurn() throws Exception {
+    private void doTurn() {
         TurnResult turnResult = this.city.runTurn(this.gameConfig.getBushelsPerResident(), 
                                                  this.gameConfig.getHarvestFactor(), this.gameConfig.getRateInfestation());
         this.userInterface.turnEnd(turnResult);
 
         if (turnResult.residents() == 0 || turnResult.starvedPercentage() >= 50) {
-            throw new Exception("You've lost the game!");
+            this.userInterface.gameLost("You lost the game!");
         }
     }
 }
