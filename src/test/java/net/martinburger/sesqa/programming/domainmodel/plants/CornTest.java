@@ -27,8 +27,7 @@ public class CornTest {
 		int oldYield = testCorn.harvest();
 		
 		c.setSoilConditions(1);
-		c.setAverageTemperatureSummer(testCorn.getOptimalTemperatureSummer());
-		c.setAverageTemperatureWinter(testCorn.getOptimalTemperatureWinter());
+		c.setAverageTemperatureSummer(testCorn.getOptimalTemperature());
 		
 		testCorn.grow(c);
 		
@@ -86,8 +85,7 @@ public class CornTest {
 		int oldYield = testCorn.harvest();
 		
 		c.setSoilConditions(0.3f);
-		c.setAverageTemperatureSummer(testCorn.getOptimalTemperatureSummer()+3);
-		c.setAverageTemperatureWinter(testCorn.getOptimalTemperatureWinter());
+		c.setAverageTemperatureSummer(testCorn.getOptimalTemperature()+3);
 		
 		testCorn.grow(c);
 		

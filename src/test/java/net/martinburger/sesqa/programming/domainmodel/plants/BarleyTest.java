@@ -27,8 +27,7 @@ public class BarleyTest {
 		int oldYield = testBarley.harvest();
 		
 		c.setSoilConditions(1);
-		c.setAverageTemperatureSummer(testBarley.getOptimalTemperatureSummer());
-		c.setAverageTemperatureWinter(testBarley.getOptimalTemperatureWinter());
+		c.setAverageTemperatureWinter(testBarley.getOptimalTemperature());
 		
 		testBarley.grow(c);
 		
@@ -87,8 +86,7 @@ public class BarleyTest {
 		int oldYield = testBarley.harvest();
 		
 		c.setSoilConditions(0.3f);
-		c.setAverageTemperatureSummer(testBarley.getOptimalTemperatureSummer());
-		c.setAverageTemperatureWinter(testBarley.getOptimalTemperatureWinter()-3);
+		c.setAverageTemperatureWinter(testBarley.getOptimalTemperature()-3);
 		
 		testBarley.grow(c);
 		

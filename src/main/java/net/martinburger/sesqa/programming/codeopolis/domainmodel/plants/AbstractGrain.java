@@ -1,6 +1,5 @@
 package net.martinburger.sesqa.programming.codeopolis.domainmodel.plants;
 
-import java.lang.reflect.Array;
 import java.util.Random;
 
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
@@ -9,14 +8,12 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * The `Plant` class represents a plant that can be grown and harvested.
  * It contains information about the base yield, whether it is a winter plant, and various factors that affect its growth.
  */
-public abstract class Grain {
+public abstract class AbstractGrain {
     private int baseYield;
-    private final boolean winterPlant;
     private final float allowedTemperatureOffset;
     private final float conditionsReduction;
     private final float droughtReduction;
-    private final float optimalTemperatureSummer;
-    private final float optimalTemperatureWinter;
+    private final float optimalTemperature;
     private int yield;
 
     /**
@@ -28,15 +25,12 @@ public abstract class Grain {
      * @param conditionsReduction the reduction factor for the plant based on soil conditions
      * @param droughtReduction the reduction factor for the plant based on drought conditions
      */
-    protected Grain(int baseYield, boolean winterPlant, float allowedTemperatureOffset, float conditionsReduction, float droughtReduction) {
+    protected AbstractGrain(int baseYield, boolean winterPlant, float allowedTemperatureOffset, float conditionsReduction, float droughtReduction, float optimalTemperature) {
         this.baseYield = baseYield;
-        this.winterPlant = winterPlant;
         this.allowedTemperatureOffset = allowedTemperatureOffset;
         this.conditionsReduction = conditionsReduction;
         this.droughtReduction = droughtReduction;
-
-        this.optimalTemperatureSummer = 18.0f;
-        this.optimalTemperatureWinter = 3.3f;
+        this.optimalTemperature = optimalTemperature;
     }
 
     public static int[] getDistributedGrainSet(int bushels) {
@@ -82,15 +76,7 @@ public abstract class Grain {
      *
      * @param conditions the conditions to grow the plant in
      */
-    public final void grow(Conditions conditions) {
-        float reduction = this.conditionsReduction * (1 - conditions.getSoilConditions());
-
-        if((winterPlant && conditions.getAverageTemperatureWinter() < this.optimalTemperatureWinter) || (!winterPlant && conditions.getAverageTemperatureSummer() > this.optimalTemperatureSummer)) {
-            reduction += conditionsReduction;
-        }
-
-        this.yield -= Math.round(this.yield * reduction);
-    }
+    public abstract void grow(Conditions conditions);
 
     /**
      * Applies drought conditions to the plant.
@@ -136,6 +122,10 @@ public abstract class Grain {
         return baseYield;
     }
 
+    public float getOptimalTemperature() {
+		return optimalTemperature;
+	}
+    
     /**
      * Returns the allowed temperature offset of the plant.
      * @return The allowed temperature offset of the plant.
@@ -160,20 +150,8 @@ public abstract class Grain {
         return droughtReduction;
     }
 
-    /**
-     * Returns the optimal summer temperature of the plant.
-     * @return The optimal summer temperature of the plant.
-     */
-    public float getOptimalTemperatureSummer() {
-        return optimalTemperatureSummer;
-    }
-
-    /**
-     * Returns the optimal winter temperature of the plant.
-     * @return The optimal winter temperature of the plant.
-     */
-    public float getOptimalTemperatureWinter() {
-        return optimalTemperatureWinter;
+    public float getOptimalTempearature() {
+    	return optimalTemperature;
     }
 
     /**

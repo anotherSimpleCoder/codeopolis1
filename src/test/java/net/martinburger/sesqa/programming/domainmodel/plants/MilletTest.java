@@ -27,8 +27,7 @@ public class MilletTest {
 		int oldYield = testMillet.harvest();
 		
 		c.setSoilConditions(1);
-		c.setAverageTemperatureSummer(testMillet.getOptimalTemperatureSummer());
-		c.setAverageTemperatureWinter(testMillet.getOptimalTemperatureWinter());
+		c.setAverageTemperatureSummer(testMillet.getOptimalTemperature());
 		
 		testMillet.grow(c);
 		
@@ -74,8 +73,7 @@ public class MilletTest {
 		int oldYield = testMillet.harvest();
 		
 		c.setSoilConditions(0.3f);
-		c.setAverageTemperatureSummer(testMillet.getOptimalTemperatureSummer()+3);
-		c.setAverageTemperatureWinter(testMillet.getOptimalTemperatureWinter());
+		c.setAverageTemperatureSummer(testMillet.getOptimalTemperature()+3);
 		
 		testMillet.grow(c);
 		

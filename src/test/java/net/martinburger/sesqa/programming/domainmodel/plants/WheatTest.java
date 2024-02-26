@@ -29,8 +29,7 @@ public class WheatTest {
 		int oldYield = testWheat.harvest();
 		
 		c.setSoilConditions(1);
-		c.setAverageTemperatureSummer(testWheat.getOptimalTemperatureSummer());
-		c.setAverageTemperatureWinter(testWheat.getOptimalTemperatureWinter());
+		c.setAverageTemperatureWinter(testWheat.getOptimalTemperature());
 		
 		testWheat.grow(c);
 		
@@ -91,8 +90,7 @@ public class WheatTest {
 		int oldYield = testWheat.harvest();
 		
 		c.setSoilConditions(0.3f);
-		c.setAverageTemperatureSummer(testWheat.getOptimalTemperatureSummer());
-		c.setAverageTemperatureWinter(testWheat.getOptimalTemperatureWinter()-3);
+		c.setAverageTemperatureWinter(testWheat.getOptimalTemperature()-3);
 		
 		testWheat.grow(c);
 		
@@ -137,7 +135,7 @@ public class WheatTest {
 		int oldYield = testWheat.harvest();
 		float referenceYield = Math.round(oldYield - oldYield * (testWheat.getPowderyMildrewReduction() + testWheat.getLeafDroughtWinter()));
 		
-		c.setAverageTemperatureWinter(testWheat.getOptimalTemperatureWinter() - 10);
+		c.setAverageTemperatureWinter(testWheat.getOptimalTemperature() - 10);
 		c.setPowdryMildrew(true);
 		c.setLeafDrought(true);
 		

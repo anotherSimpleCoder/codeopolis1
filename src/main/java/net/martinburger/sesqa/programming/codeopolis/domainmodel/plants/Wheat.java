@@ -5,7 +5,7 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * The `Wheat` class represents a type of plant that is used for harvesting wheat.
  * It extends the `Plant` class and overrides the `pestInfestation` and `diseaseOutbreak` methods.
  */
-public class Wheat extends Grain {
+public class Wheat extends AbstractWinterGrain {
     private final float fritFlyReduction = 0.25f;
     private final float barleyGoutFlyReduction = 0.3f;
 
@@ -17,7 +17,7 @@ public class Wheat extends Grain {
      * Creates a new instance of the `Wheat` class with default values.
      */
     public Wheat() {
-        super(6, true, 0.1f, 0.3f, 0.5f);
+        super(6, 0.1f, 0.3f, 0.5f);
     }
 
     /**
@@ -56,7 +56,7 @@ public class Wheat extends Grain {
         }
 
         if(conditions.isLeafDrought()){
-            if((conditions.getAverageTemperatureWinter() <= (this.getOptimalTemperatureWinter() + 2))) {
+            if((conditions.getAverageTemperatureWinter() <= (this.getOptimalTemperature() + 2))) {
                 reduction += this.leafDroughtWinter;
             } else {
                 reduction += this.leafDroughtSummer;

@@ -7,7 +7,21 @@ package net.martinburger.sesqa.programming.codeopolis.domainmodel;
 public class Harvest {
     private int amount;
     private int year;       //Lagerjahr
+    private String grainType;
 
+    /**
+     * Constructs a new `Harvest` object with the given amount and year.
+     *
+     * @param amount: the amount of crops harvested
+     * @param year: the year of the harvest
+     * @param grainType: The type of grain you store
+     */
+    public Harvest(int amount, int year, String grainType) {
+    	this.amount = amount;
+    	this.year = year;
+    	this.grainType = grainType;
+    }
+    
     /**
      * Constructs a new `Harvest` object with the given amount and year.
      *
@@ -17,8 +31,9 @@ public class Harvest {
     public Harvest(int amount, int year) {
         this.amount = amount;
         this.year = year;
+        this.grainType = "";
     }
-
+    
     /*Getters*/
     public int getAmount() {
         return amount;
@@ -26,6 +41,10 @@ public class Harvest {
 
     public int getYear() {
         return year;
+    }
+    
+    public String getGrainType() {
+    	return this.grainType;
     }
 
     /*Functionality methods*/

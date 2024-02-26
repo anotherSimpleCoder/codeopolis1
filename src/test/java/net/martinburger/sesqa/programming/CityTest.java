@@ -187,9 +187,9 @@ public class CityTest {
     	assertThrows(Exception.class, ()->testCity.plant(10, 1, acresToPlant));
     	
         //Test for negative input
-    	Arrays.stream(acresToPlant).map((element)->(new Random()).nextInt(-100, -1));
+    	int[] negativeAcresToPlant = Arrays.stream(acresToPlant).map((element)->(new Random()).nextInt(-100, -1)).toArray();
        // int randomNegative = (new Random()).nextInt(-100, -1);
-        assertThrows(Exception.class, ()->testCity.plant(-10, 1, acresToPlant));
+        assertThrows(Exception.class, ()->testCity.plant(-10, 1, negativeAcresToPlant));
     }
     
     @Test

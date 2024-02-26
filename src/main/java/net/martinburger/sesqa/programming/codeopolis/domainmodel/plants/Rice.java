@@ -5,7 +5,7 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * The `Rice` class represents a type of plant that is used for harvesting rice.
  * It extends the `Plant` class and overrides the `pestInfestation` and `diseaseOutbreak` methods.
  */
-public class Rice extends Grain {
+public class Rice extends AbstractSummerGrain {
     private final float deliaFlyReduction = 0.3f;
     private final float deliaFlyOutsideThresholdReduction = 0.4f;
     private final float barleyGoutFlyReduction = 0.3f;
@@ -16,7 +16,7 @@ public class Rice extends Grain {
      * Creates a new instance of the `Rice` class with default values.
      */
     public Rice() {
-        super(6, false, 0.1f, 0.3f, 0.5f);
+        super(6, 0.1f, 0.3f, 0.5f);
     }
 
     /**
@@ -26,7 +26,7 @@ public class Rice extends Grain {
     @Override
     public void pestInfestation(Conditions conditions) {
         int newYield = this.harvest();
-        float temperatureThreshold = getOptimalTemperatureSummer() + (getOptimalTemperatureSummer() * 0.1f);
+        float temperatureThreshold = getOptimalTemperature() + (getOptimalTemperature() * 0.1f);
         float reduction = 0;
 
         if(conditions.isDelioFly()) {

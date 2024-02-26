@@ -14,7 +14,7 @@ import java.util.Random;
 
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Barley;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Corn;
-import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Grain;
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.AbstractGrain;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Millet;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Rice;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Rye;
@@ -27,7 +27,7 @@ public class City implements CityState {
     private int acres;
     private int population;
     private int bushelsFed;
-    private Grain[] planted;
+    private AbstractGrain[] planted;
     private int pastYears;
     private Depot depot;
     private Harvest harvest;
@@ -46,7 +46,7 @@ public class City implements CityState {
         this.bushels = 0;
         this.population = population;
         this.bushelsFed = 0;
-        this.planted = new Grain[6];
+        this.planted = new AbstractGrain[6];
         this.pastYears = 0;
         this.harvest = new Harvest(0, 0);
         this.depot = new Depot(capacity) {{
@@ -79,7 +79,6 @@ public class City implements CityState {
             throw new Exception("Not enough bushels");
         }
 
-        //this.bushels = this.bushels - price;
         this.depot.takeOut(price);
         this.acres = this.acres + wantedAcres;
     }
@@ -247,7 +246,7 @@ public class City implements CityState {
      * @return The new harvest amount.
      */
     public int calculateNewHarvest(float z, float harvestFactor, Conditions grainConditions) {
-    	for(Grain g: this.planted) {
+    	for(AbstractGrain g: this.planted) {
     		g.grow(grainConditions);
     		g.drought(grainConditions);
     		g.pestInfestation(grainConditions);
@@ -298,7 +297,7 @@ public class City implements CityState {
     public int getPlantedAcres() {
     	int res = 0;
     	
-    	for(Grain g: this.planted) {
+    	for(AbstractGrain g: this.planted) {
     		res += g.harvest() / g.getBaseYield();
     	}
     	

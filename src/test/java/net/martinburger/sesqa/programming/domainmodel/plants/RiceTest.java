@@ -26,8 +26,7 @@ public class RiceTest {
 		int oldYield = testRice.harvest();
 		
 		c.setSoilConditions(1);
-		c.setAverageTemperatureSummer(testRice.getOptimalTemperatureSummer());
-		c.setAverageTemperatureWinter(testRice.getOptimalTemperatureWinter());
+		c.setAverageTemperatureSummer(testRice.getOptimalTemperature());
 		
 		testRice.grow(c);
 		
@@ -87,8 +86,7 @@ public class RiceTest {
 		int oldYield = testRice.harvest();
 		
 		c.setSoilConditions(0.3f);
-		c.setAverageTemperatureSummer(testRice.getOptimalTemperatureSummer()+3);
-		c.setAverageTemperatureWinter(testRice.getOptimalTemperatureWinter());
+		c.setAverageTemperatureSummer(testRice.getOptimalTemperature()+3);
 		
 		testRice.grow(c);
 		
@@ -118,8 +116,8 @@ public class RiceTest {
 		assertTrue(testRice.plant(10));
 		int oldYield = testRice.harvest();
 		
-		float temp = testRice.getOptimalTemperatureSummer();
-		temp += testRice.getOptimalTemperatureSummer() * 0.2f;
+		float temp = testRice.getOptimalTemperature();
+		temp += testRice.getOptimalTemperature() * 0.2f;
 		
 		float referenceYield = Math.round(oldYield - oldYield * (testRice.getDeliaFlyOutsideThresholdReduction() + testRice.getBarleyGoutFlyReduction())) - 1;
 		

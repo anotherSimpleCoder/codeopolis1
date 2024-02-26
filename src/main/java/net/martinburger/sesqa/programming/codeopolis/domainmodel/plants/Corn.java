@@ -6,7 +6,7 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * This class represents a corn plant.
  * It contains methods to simulate pest infestation and disease outbreak.
  */
-public class Corn extends Grain {
+public class Corn extends AbstractSummerGrain {
     private final float fritFlyReduction = 0.4f;
     private final float powderyMildrewReduction = 0.25f;
 
@@ -14,7 +14,7 @@ public class Corn extends Grain {
      * Initializes a new instance of the Corn class.
      */
     public Corn() {
-        super(4, false, 0.25f, 0.2f, 0.3f);
+        super(4, 0.25f, 0.2f, 0.3f);
     }
 
     /**

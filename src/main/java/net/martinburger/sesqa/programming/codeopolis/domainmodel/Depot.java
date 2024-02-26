@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * This class represents a depot for storing harvests.
  */
 public class Depot {
-    private ArrayList<Harvest> stock;
+    private ArrayList<Silo> stock;
     private int capacity;
 
     /**
@@ -14,7 +14,7 @@ public class Depot {
      * @param capacity the maximum capacity of the depot
      */
     public Depot(int capacity) {
-        stock = new ArrayList<Harvest>();
+        stock = new ArrayList<Silo>();
         this.capacity = capacity;
     }
 
@@ -37,8 +37,8 @@ public class Depot {
     public int getFillLevel() {
         int res = 0;
 
-        for(Harvest h: stock) {
-            res += h.getAmount();
+        for(Silo s: stock) {
+            res += s.getFillLevel();
         }
 
         return res;
@@ -50,9 +50,11 @@ public class Depot {
      * @return true if the harvest was stored successfully, false otherwise
      */
     public boolean store(Harvest harvest) {
-        if(stock.size() < capacity) {
-            stock.add(harvest);
-            return true;
+        for(Silo s: stock) {
+        	if(s.getGrainType().equals(harvest.getGrainType())) {
+        		s.store(harvest);
+        		return true;
+        	}
         }
 
         return false;
@@ -66,9 +68,9 @@ public class Depot {
     public int takeOut(int amount) {
         int takenOut = 0;
 
-        for(Harvest h: stock) {
-            if(h.getAmount() != 0) {
-                takenOut += h.remove(amount - takenOut);
+        for(Silo s: stock) {
+            if(s.getFillLevel() != 0) {
+                takenOut += s.takeOut(amount - takenOut);
             }
         }
 
@@ -95,8 +97,9 @@ public class Depot {
     public int decay() {
         int decayed = 0;
 
-        for(Harvest h: stock) {
-            h.decay();
+        //TODO: How are silos going to do the decay??
+        for(Silo s: stock) {
+            s.decay();
         }
 
         return decayed;

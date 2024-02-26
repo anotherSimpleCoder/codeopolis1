@@ -25,9 +25,12 @@ public class Game {
      * Constructs a new `Game` object with default settings.
      */
     public Game() {
-        gameConfig = new GameConfig(DifficultyLevel.EASY);
+    	userInterface = new TextInterface();
+    	DifficultyLevel difficultyLevel = userInterface.difficultyMenu();
+    	
+        gameConfig = new GameConfig(difficultyLevel);
         city = new City("Codeopolis", this.gameConfig.getInitialResidents(), this.gameConfig.getInitialAcres(), this.gameConfig.getInitialBushels(), this.gameConfig.getInitialCapacity());
-        userInterface = new TextInterface();
+        
     }
 
     /**

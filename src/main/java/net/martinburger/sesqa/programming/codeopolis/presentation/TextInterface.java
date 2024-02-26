@@ -7,6 +7,7 @@ import java.util.Scanner;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.City;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.CityState;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.UserInterface;
+import net.martinburger.sesqa.programming.codeopolis.utils.DifficultyLevel;
 import net.martinburger.sesqa.programming.codeopolis.utils.TurnResult;
 
 /**
@@ -167,7 +168,7 @@ public class TextInterface implements UserInterface {
         while (true) {
             System.out.print("""
                     ===== MAIN MENU =====
-                    1. NEW GAME
+                    1. START
                     2. QUIT
                     Please select an option:""");
 
@@ -191,6 +192,33 @@ public class TextInterface implements UserInterface {
         System.out.println("City Status: " + cityState.getAcres() + " of land; " + cityState.getBushels() + " of grain; "
                 + cityState.getPopulation() + " of people.");
         System.out.println();
+    }
+    
+    public DifficultyLevel difficultyMenu() {
+    	while(true) {
+        	System.out.print("""
+        			===== CHOOSE YOUR DIFFICULTY =====
+        			1. EASY
+        			2. MEDIUM
+        			3. HARD
+        			Please select an option: """);
+        	int choice = this.scanner.nextInt();
+        	
+        	switch(choice) {
+    	    	case 1: {
+    	    		return DifficultyLevel.EASY;
+    	    	}
+    	    	
+    	    	case 2: {
+    	    		return DifficultyLevel.MEDIUM;
+    	    	}
+    	    	
+    	    	case 3: {
+    	    		return DifficultyLevel.HARD;
+    	    	}
+        	}
+    	}
+    	
     }
 }
 

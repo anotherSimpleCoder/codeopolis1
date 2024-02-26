@@ -6,13 +6,13 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Grain;
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.AbstractGrain;
 
 public class GrainTest {
 	@Test
 	public void testGetDistributedGrainSet() {
 		int bushels = 100;
-		int[] res = Grain.getDistributedGrainSet(bushels);
+		int[] res = AbstractGrain.getDistributedGrainSet(bushels);
 		
 		int sum = Arrays.stream(res).reduce(0, (subtotal, element)-> subtotal+=element);
 		assertEquals(sum, bushels);
@@ -21,7 +21,7 @@ public class GrainTest {
 	@Test
 	public void testGetDistributedEmptyGrainSet() {
 		int bushels = 0;
-		int[] res = Grain.getDistributedGrainSet(bushels);
+		int[] res = AbstractGrain.getDistributedGrainSet(bushels);
 		
 		int sum = Arrays.stream(res).reduce(0, (subtotal, element)-> subtotal+=element);
 		assertEquals(sum, bushels);

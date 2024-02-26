@@ -27,8 +27,7 @@ public class RyeTest {
 		int oldYield = testRye.harvest();
 		
 		c.setSoilConditions(1);
-		c.setAverageTemperatureSummer(testRye.getOptimalTemperatureSummer());
-		c.setAverageTemperatureWinter(testRye.getOptimalTemperatureWinter());
+		c.setAverageTemperatureWinter(testRye.getOptimalTemperature());
 		
 		testRye.grow(c);
 		
@@ -74,8 +73,7 @@ public class RyeTest {
 		int oldYield = testRye.harvest();
 		
 		c.setSoilConditions(0.3f);
-		c.setAverageTemperatureSummer(testRye.getOptimalTemperatureSummer());
-		c.setAverageTemperatureWinter(testRye.getOptimalTemperatureWinter()-3);
+		c.setAverageTemperatureWinter(testRye.getOptimalTemperature()-3);
 		
 		testRye.grow(c);
 		
@@ -107,7 +105,7 @@ public class RyeTest {
 		float referenceYield = oldYield - oldYield * testRye.getPowderyMildrewWinter();
 		
 		c.setPowdryMildrew(true);
-		c.setAverageTemperatureWinter(testRye.getOptimalTemperatureWinter() -1);
+		c.setAverageTemperatureWinter(testRye.getOptimalTemperature() -1);
 		
 		testRye.diseaseOutbreak(c);
 		assertEquals(testRye.harvest(), referenceYield);

@@ -1,5 +1,6 @@
 package net.martinburger.sesqa.programming.codeopolis.domainmodel;
 
+import net.martinburger.sesqa.programming.codeopolis.utils.DifficultyLevel;
 import net.martinburger.sesqa.programming.codeopolis.utils.TurnResult;
 
 /**
@@ -14,6 +15,8 @@ import net.martinburger.sesqa.programming.codeopolis.utils.TurnResult;
  * change the game logic.
  */
 public interface UserInterface {
+	
+	public DifficultyLevel difficultyMenu();
 	
 	int mainMenu();
 
