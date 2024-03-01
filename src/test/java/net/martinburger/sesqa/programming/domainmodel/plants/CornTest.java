@@ -114,7 +114,7 @@ public class CornTest {
 		Conditions c = Conditions.generateRandomConditions();
 		assertTrue(testCorn.plant(10));
 		int oldYield = testCorn.harvest();
-		float referenceYield = Math.round(oldYield - oldYield * (testCorn.getFritFlyReduction()));
+		float referenceYield = Math.round(oldYield - oldYield * testCorn.getFritFlyReduction());
 		
 		c.setFritFly(true);
 		
@@ -127,7 +127,7 @@ public class CornTest {
 		Conditions c = Conditions.generateRandomConditions();
 		assertTrue(testCorn.plant(10));
 		int oldYield = testCorn.harvest();
-		float referenceYield = Math.round(oldYield - oldYield * (testCorn.getPowderyMildrewReduction()));
+		float referenceYield = Math.round(oldYield - oldYield * testCorn.getPowderyMildrewReduction());
 		
 		c.setPowdryMildrew(true);
 		

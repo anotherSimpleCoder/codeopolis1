@@ -1,10 +1,7 @@
 package net.martinburger.sesqa.programming.codeopolis.presentation;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
-import net.martinburger.sesqa.programming.codeopolis.domainmodel.City;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.CityState;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.UserInterface;
 import net.martinburger.sesqa.programming.codeopolis.utils.DifficultyLevel;
@@ -80,24 +77,6 @@ public class TextInterface implements UserInterface {
         
         return this.scanner.nextInt();
     }
-
-    /**
-     * Displays the plant menu and prompts the user for the number of acres to plant with seeds.
-     *
-     * @return The user's input for the number of acres to plant.
-     
-    public int plant(int bushelsPerAcre, int acrePerResident, CityState cityState) {
-    	this.statusMenu(cityState);
-    	System.out.println();
-
-    	
-    	System.out.printf("""
-                ===== PLANT MENU =====\n
-                Bushels per acre: %d \t Acre per resident: %d
-                """, bushelsPerAcre, acrePerResident);
-    	
-        return this.scanner.nextInt();
-    }*/
     
     public int[] plant(int bushelsPerAcre, int acrePerResident, CityState cityState) {
     	String[] plants = {"wheat", "barley", "rye", "millet", "corn", "rice"};
@@ -169,12 +148,13 @@ public class TextInterface implements UserInterface {
             System.out.print("""
                     ===== MAIN MENU =====
                     1. START
-                    2. QUIT
+                    2. LOAD GAME
+                    3. QUIT
                     Please select an option:""");
 
             choice = this.scanner.nextInt();
 
-            if (choice == 1 || choice == 2) {
+            if (choice == 1 || choice == 2 || choice == 3) {
                 return choice;
             } else {
                 System.out.println("Invalid option!");
@@ -189,8 +169,8 @@ public class TextInterface implements UserInterface {
      */
     private void statusMenu(CityState cityState) {
         System.out.println("===== STATUS =====");
-        System.out.println("City Status: " + cityState.getAcres() + " of land; " + cityState.getBushels() + " of grain; "
-                + cityState.getPopulation() + " of people.");
+        System.out.println("City Status: " + cityState.acres() + " of land; " + cityState.bushels() + " of grain; "
+                + cityState.population() + " of people.");
         System.out.println();
     }
     

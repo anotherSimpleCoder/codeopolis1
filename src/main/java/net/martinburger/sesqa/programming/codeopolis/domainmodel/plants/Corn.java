@@ -6,7 +6,7 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * This class represents a corn plant.
  * It contains methods to simulate pest infestation and disease outbreak.
  */
-public class Corn extends AbstractSummerGrain {
+public class Corn extends AbstractSummerGrain implements Rottable  {
     private final float fritFlyReduction = 0.4f;
     private final float powderyMildrewReduction = 0.25f;
 
@@ -14,7 +14,7 @@ public class Corn extends AbstractSummerGrain {
      * Initializes a new instance of the Corn class.
      */
     public Corn() {
-        super(4, 0.25f, 0.2f, 0.3f);
+        super(4, 0.25f, 0.2f, 0.3f, 2, 0.02f, 0.03f);
     }
 
     /**
@@ -65,5 +65,20 @@ public class Corn extends AbstractSummerGrain {
      */
     public float getPowderyMildrewReduction() {
         return powderyMildrewReduction;
+    }
+
+    @Override
+    public int getLongevity() {
+        return 0;
+    }
+
+    @Override
+    public float getRotIncrease() {
+        return 0;
+    }
+
+    @Override
+    public float getRotAfterFirstYear() {
+        return 0;
     }
 }

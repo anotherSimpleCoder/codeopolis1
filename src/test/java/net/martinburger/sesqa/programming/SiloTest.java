@@ -3,6 +3,8 @@ package net.martinburger.sesqa.programming;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Rye;
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Wheat;
 import org.junit.jupiter.api.Test;
 
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.Harvest;
@@ -13,7 +15,7 @@ public class SiloTest {
 	public void testStore() {
 		try {
 			Silo testSilo = new Silo(10);
-			Harvest testHarvest = new Harvest(10, 0, "Rye");
+			Harvest testHarvest = new Harvest(10, 0, new Rye());
 			assertEquals(0, testSilo.store(testHarvest));
 			
 			assertEquals(10, testSilo.getFillLevel());
@@ -26,7 +28,7 @@ public class SiloTest {
 	public void testTakeOut() {
 		try {
 			Silo testSilo = new Silo(10);
-			Harvest testHarvest = new Harvest(10, 0);
+			Harvest testHarvest = new Harvest(10, 0, new Wheat());
 			testSilo.store(testHarvest);
 			
 			assertEquals(testSilo.takeOut(5), 5);
@@ -39,7 +41,7 @@ public class SiloTest {
 	public void testStoreFail() {
 		try {
 			Silo testSilo = new Silo(0);
-			Harvest testHarvest = new Harvest(10, 0, "Rye");
+			Harvest testHarvest = new Harvest(10, 0, new Rye());
 			
 			assertEquals(10, testSilo.store(testHarvest));
 			assertEquals(0, testSilo.getFillLevel());
@@ -52,8 +54,8 @@ public class SiloTest {
 	public void testStoreFail2() {
 		try {
 			Silo testSilo = new Silo(10);
-			Harvest testHarvest = new Harvest(10, 0, "Rye");
-			Harvest testHarvest2 = new Harvest(10, 0, "Wheat");
+			Harvest testHarvest = new Harvest(10, 0, new Rye());
+			Harvest testHarvest2 = new Harvest(10, 0, new Wheat());
 			assertEquals(testSilo.store(testHarvest), 0);
 			
 			assertEquals(10, testSilo.getFillLevel());

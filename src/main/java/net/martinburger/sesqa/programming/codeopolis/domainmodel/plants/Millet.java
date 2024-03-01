@@ -5,7 +5,7 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * This class represents a millet plant.
  * It contains methods to simulate pest infestation and disease outbreak.
  */
-public class Millet extends AbstractSummerGrain {
+public class Millet extends AbstractSummerGrain implements Rottable {
     private final float barleyGoutFlyGoodSoil = 0.1f;
     private final float barleyGoutFlyBadSoil = 0.15f;
 
@@ -13,7 +13,7 @@ public class Millet extends AbstractSummerGrain {
      * Initializes a new instance of the Millet class.
      */
     public Millet() {
-        super(2, 0.45f, 0.1f, 0.05f);
+        super(2, 0.45f, 0.1f, 0.05f, 4, 0.01f, 0.02f);
     }
 
     /**
@@ -62,5 +62,20 @@ public class Millet extends AbstractSummerGrain {
      */
     public float getBarleyGoutFlyBadSoil() {
         return barleyGoutFlyBadSoil;
+    }
+
+    @Override
+    public float getRotAfterFirstYear() {
+        return 0;
+    }
+
+    @Override
+    public float getRotIncrease() {
+        return 0;
+    }
+
+    @Override
+    public int getLongevity() {
+        return 0;
     }
 }

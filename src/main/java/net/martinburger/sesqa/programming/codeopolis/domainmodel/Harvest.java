@@ -1,5 +1,7 @@
 package net.martinburger.sesqa.programming.codeopolis.domainmodel;
 
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Rottable;
+
 /**
  * The `Harvest` class represents a harvest of crops.
  * It contains information about the amount of crops harvested and the year of the harvest.
@@ -7,7 +9,7 @@ package net.martinburger.sesqa.programming.codeopolis.domainmodel;
 public class Harvest {
     private int amount;
     private int year;       //Lagerjahr
-    private String grainType;
+    private Rottable grainType;
 
     /**
      * Constructs a new `Harvest` object with the given amount and year.
@@ -16,7 +18,7 @@ public class Harvest {
      * @param year: the year of the harvest
      * @param grainType: The type of grain you store
      */
-    public Harvest(int amount, int year, String grainType) {
+    public Harvest(int amount, int year, Rottable grainType) {
     	this.amount = amount;
     	this.year = year;
     	this.grainType = grainType;
@@ -31,7 +33,7 @@ public class Harvest {
     public Harvest(int amount, int year) {
         this.amount = amount;
         this.year = year;
-        this.grainType = "";
+        this.grainType = null;
     }
     
     /*Getters*/
@@ -43,7 +45,7 @@ public class Harvest {
         return year;
     }
     
-    public String getGrainType() {
+    public Rottable getGrainType() {
     	return this.grainType;
     }
 
@@ -72,10 +74,13 @@ public class Harvest {
      * @return the amount of crops that decayed
      */
     public int decay() {
+        int longevity = this.grainType.getLongevity();
+        float rotAfterFirstYear = this.grainType.getRotAfterFirstYear();
+        float rotIncrease = this.grainType.getRotIncrease();
         int toRot = 0;
 
-        if(this.year >= 2) {
-            toRot -= (int)(Math.pow(0.2, this.year) * this.amount);
+        if(this.year > longevity) {
+            toRot -= (int)(rotAfterFirstYear * (rotIncrease * (this.year - longevity)) * this.amount);
             this.amount -= toRot;
         }
 

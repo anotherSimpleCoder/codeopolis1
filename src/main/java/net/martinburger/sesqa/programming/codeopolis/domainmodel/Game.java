@@ -14,6 +14,7 @@ import java.util.Random;
 import net.martinburger.sesqa.programming.codeopolis.presentation.TextInterface;
 import net.martinburger.sesqa.programming.codeopolis.utils.DifficultyLevel;
 import net.martinburger.sesqa.programming.codeopolis.utils.GameConfig;
+import net.martinburger.sesqa.programming.codeopolis.utils.JSONService;
 import net.martinburger.sesqa.programming.codeopolis.utils.TurnResult;
 
 public class Game {
@@ -44,6 +45,8 @@ public class Game {
         if (choice == 1) {
             this.runGame();
             this.userInterface.gameWon("Congratulations, you won!");
+        } else if(choice == 2) {
+            this.loadGame();
         }
 
         System.exit(0);
@@ -80,7 +83,7 @@ public class Game {
         try {
         	int landPrice = (new Random()).nextInt(this.gameConfig.getMinArcrPrice(), this.gameConfig.getMaxAcrePrice());
         	
-            int acresToBuy = this.userInterface.buy(landPrice, this.city);
+            int acresToBuy = this.userInterface.buy(landPrice, this.city.getCityState());
             
             this.city.buyLand(landPrice, acresToBuy);
         } catch (Exception e) {
@@ -100,7 +103,7 @@ public class Game {
                 // If easy mode
                 
                 int landPrice = (new Random()).nextInt(this.gameConfig.getMinArcrPrice(), this.gameConfig.getMaxAcrePrice());
-                int acresToSell = this.userInterface.sell(landPrice, this.city);
+                int acresToSell = this.userInterface.sell(landPrice, this.city.getCityState());
                 
                 this.city.sellLand(landPrice, acresToSell);
                 return;
@@ -121,7 +124,7 @@ public class Game {
             // If easy mode
             
 
-            int bushelsToFeed = this.userInterface.feed(this.gameConfig.getBushelsPerResident(), this.city);
+            int bushelsToFeed = this.userInterface.feed(this.gameConfig.getBushelsPerResident(), this.city.getCityState());
 
             this.city.feed(bushelsToFeed);
         } catch (Exception e) {
@@ -134,28 +137,14 @@ public class Game {
      */
     private void plantAcres() {
     	try {
-    		int[] acresToPlant = this.userInterface.plant(this.gameConfig.getBushelsPerAcre(), this.gameConfig.getAcrePerResident(), city);
+    		int[] acresToPlant = this.userInterface.plant(this.gameConfig.getBushelsPerAcre(), this.gameConfig.getAcrePerResident(), this.city.getCityState());
     		
     		this.city.plant(this.gameConfig.getAcrePerResident(), this.gameConfig.getBushelsPerAcre(), acresToPlant);
     	} catch(Exception e) {
     		e.printStackTrace();
     	}
     }
-    
-    /**
-     * Displays the status menu and prompts the user to plant acres.
-     * Calls the `plant` method of the `City` class.
-     * Handles exceptions and prints the stack trace if an error occurs.
-     
-    private void plantAcres() {
-        try {
-            int acresPlant = this.userInterface.plant(this.gameConfig.getBushelsPerAcre(), this.gameConfig.getAcrePerResident(), this.city);
 
-            this.city.plant(this.gameConfig.getAcrePerResident(), this.gameConfig.getBushelsPerAcre(), acresPlant);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
     /**
      * Executes a game turn by calling the `runTurn` method of the `City` class.
@@ -168,9 +157,19 @@ public class Game {
         TurnResult turnResult = this.city.runTurn(this.gameConfig.getBushelsPerResident(), 
                                                  this.gameConfig.getHarvestFactor(), this.gameConfig.getRateInfestation());
         this.userInterface.turnEnd(turnResult);
+        this.storeGame();
 
         if (turnResult.residents() == 0 || turnResult.starvedPercentage() >= 50) {
             this.userInterface.gameLost("You lost the game!");
         }
+    }
+
+    private void loadGame() {
+        CityState loadedState = JSONService.cityStateJSONService().read("game.json", this.city.getCityState());
+        this.city = new City(loadedState);
+    }
+
+    private void storeGame() {
+        JSONService.cityStateJSONService().write(this.city.getCityState(), "game.json");
     }
 }

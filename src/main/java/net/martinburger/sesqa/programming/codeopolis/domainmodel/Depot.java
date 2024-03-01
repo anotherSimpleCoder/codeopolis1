@@ -1,5 +1,7 @@
 package net.martinburger.sesqa.programming.codeopolis.domainmodel;
 
+import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Rottable;
+
 import java.util.ArrayList;
 
 /**
@@ -15,6 +17,9 @@ public class Depot {
      */
     public Depot(int capacity) {
         stock = new ArrayList<Silo>();
+        stock.add(new Silo(capacity));
+        stock.add(new Silo(capacity));
+        stock.add(new Silo(capacity));
         this.capacity = capacity;
     }
 
@@ -51,10 +56,10 @@ public class Depot {
      */
     public boolean store(Harvest harvest) {
         for(Silo s: stock) {
-        	if(s.getGrainType().equals(harvest.getGrainType())) {
-        		s.store(harvest);
-        		return true;
-        	}
+            if(s.getFillLevel() < this.capacity) {
+                s.store(harvest);
+                return true;
+            }
         }
 
         return false;
@@ -97,12 +102,27 @@ public class Depot {
     public int decay() {
         int decayed = 0;
 
-        //TODO: How are silos going to do the decay??
         for(Silo s: stock) {
             s.decay();
         }
 
         return decayed;
+    }
+
+    //TODO: Man fuck jay z
+    public void defragement() {
+        Rottable grainType = stock.get(0).getGrainType();
+        for(int i = 1; i < stock.size(); i++) {
+            if(stock.get(i).getGrainType().equals(grainType)) {
+                if(stock.get(i-1).getFillLevel() < stock.get(i-1).getCapacity()) {
+                    int toTakeOut = stock.get(i-1).getCapacity() - stock.get(i).getFillLevel();
+                    stock.get(i).takeOut(toTakeOut);
+
+                    //TODO: Hmm we got a year problem....
+                }
+
+            }
+        }
     }
 
     /*Overrides*/

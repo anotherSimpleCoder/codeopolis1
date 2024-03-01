@@ -3,8 +3,8 @@ package net.martinburger.sesqa.programming.codeopolis.domainmodel.plants;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
 
 public abstract class AbstractSummerGrain extends AbstractGrain {
-	public AbstractSummerGrain(int baseYield, float allowedTemperatureOffset, float conditionsReduction, float droughtReduction) {
-		super(baseYield, false, allowedTemperatureOffset, conditionsReduction, droughtReduction, 18.0f);
+	public AbstractSummerGrain(int baseYield, float allowedTemperatureOffset, float conditionsReduction, float droughtReduction, int longevity, float rotAfterFirstYear, float rotIncrease) {
+		super(baseYield, allowedTemperatureOffset, conditionsReduction, droughtReduction, 18.0f, longevity, rotAfterFirstYear, rotIncrease);
 	}
 	
 	@Override

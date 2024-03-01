@@ -115,7 +115,7 @@ public class BarleyTest {
 		Conditions c = Conditions.generateRandomConditions();
 		assertTrue(testBarley.plant(10));
 		int oldYield = testBarley.harvest();
-		float referenceYield = oldYield - oldYield * (testBarley.getBarleyGoutFlyReduction());
+		float referenceYield = oldYield - oldYield * testBarley.getBarleyGoutFlyReduction();
 		
 		c.setBarleyGoutFly(true);
 		
@@ -128,7 +128,7 @@ public class BarleyTest {
 		Conditions c = Conditions.generateRandomConditions();
 		assertTrue(testBarley.plant(10));
 		int oldYield = testBarley.harvest();
-		float referenceYield = oldYield - oldYield * (testBarley.getFusariumReduction());
+		float referenceYield = oldYield - oldYield * testBarley.getFusariumReduction();
 		
 		c.setFusarium(true);
 		

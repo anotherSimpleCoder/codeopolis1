@@ -5,7 +5,7 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * The `Rye` class represents a type of plant that is used for harvesting rye.
  * It extends the `Plant` class and overrides the `pestInfestation` and `diseaseOutbreak` methods.
  */
-public class Rye extends AbstractWinterGrain {
+public class Rye extends AbstractWinterGrain implements Rottable {
     private final float powderyMildrewWinter = 0.1f;
     private final float powderyMildrewSummer = 0.15f;
 
@@ -13,7 +13,7 @@ public class Rye extends AbstractWinterGrain {
      * Creates a new instance of the `Rye` class with default values.
      */
     public Rye() {
-        super(2, 0.45f, 0.1f, 0.05f);
+        super(2, 0.45f, 0.1f, 0.05f, 4, 0.01f, 0.02f);
     }
 
     /**
@@ -60,5 +60,20 @@ public class Rye extends AbstractWinterGrain {
      */
     public float getPowderyMildrewWinter() {
         return powderyMildrewWinter;
+    }
+
+    @Override
+    public float getRotIncrease() {
+        return 0;
+    }
+
+    @Override
+    public float getRotAfterFirstYear() {
+        return 0;
+    }
+
+    @Override
+    public int getLongevity() {
+        return 0;
     }
 }

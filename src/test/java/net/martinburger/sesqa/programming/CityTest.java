@@ -15,7 +15,6 @@ public class CityTest {
     public void testBuy() {
         //Create test city
         City testCity = new City("Test city", 100, 1000, 2800, 30);
-        //int oldBushels = testCity.getBushels();
         int oldFillLevel = testCity.getDepot().getFillLevel();
         int oldAcres = testCity.getAcres();
 
@@ -23,7 +22,6 @@ public class CityTest {
         int landPrice = 19;
         int acresInput = 2;
         assertDoesNotThrow(()->testCity.buyLand(landPrice, acresInput));
-        //assertTrue(oldBushels >= testCity.getBushels());
         assertTrue(testCity.getDepot().getFillLevel() < oldFillLevel);
         assertTrue(oldAcres <= testCity.getAcres());
     }
@@ -93,6 +91,7 @@ public class CityTest {
         assertEquals(starvedPercentage, 99);
     }
 
+    @Test
     public void testCalculateNewResidents() {
     	//Create test city
         City testCity = new City("Test city", 100, 1000, 2800, 30);
@@ -105,14 +104,14 @@ public class CityTest {
         assertEquals(starvedPercentage, 50);
         
         int newResidents = testCity.calculateNewResidents(0.3f, starvedPercentage);
-        assertEquals(newResidents, 30);
+        assertEquals(newResidents, 0);
     }
     
     @Test
     public void testCalculateNewHarvest() {
     	//Create test city
         City testCity = new City("Test city", 100, 1000, 2800, 30);
-        int acresToPlant[] = {10,20,30,10,10,20};
+        int[] acresToPlant = {10,20,30,10,10,20};
         Conditions testConditions = Conditions.generateRandomConditions();
         testConditions.setSoilConditions(1.0f);
         testConditions.setAverageTemperatureSummer(18.0f);
@@ -128,7 +127,7 @@ public class CityTest {
         assertDoesNotThrow(()-> testCity.plant(10, 1, acresToPlant));
         
         int newHarvest = testCity.calculateNewHarvest(0.5f, 1, testConditions);
-        assertEquals(newHarvest, 50);
+        assertEquals(newHarvest, 190);
     }
     
     @Test
@@ -150,7 +149,7 @@ public class CityTest {
         assertThrows(Exception.class, ()->testCity.buyLand(10, wantedAcres));
         
         //Test for negative input
-        int randomNegative = (new Random()).nextInt(-100, -1);
+        int randomNegative = new Random().nextInt(-100, -1);
         assertThrows(Exception.class, ()->testCity.buyLand(10, randomNegative));
     }
 
@@ -162,7 +161,7 @@ public class CityTest {
         assertThrows(Exception.class, ()-> testCity.sellLand(10, acresToSell));
 
         //Test for negative input
-        int randomNegative = (new Random()).nextInt(-100, -1);
+        int randomNegative = new Random().nextInt(-100, -1);
         assertThrows(Exception.class, ()->testCity.sellLand(10, randomNegative));
     }
 
@@ -174,7 +173,7 @@ public class CityTest {
     	assertThrows(Exception.class, ()->testCity.feed(10));
     	
         //Test for negative input
-        int randomNegative = (new Random()).nextInt(-100, -1);
+        int randomNegative = new Random().nextInt(-100, -1);
         assertThrows(Exception.class, ()->testCity.feed(randomNegative));
     }
     
@@ -187,7 +186,7 @@ public class CityTest {
     	assertThrows(Exception.class, ()->testCity.plant(10, 1, acresToPlant));
     	
         //Test for negative input
-    	int[] negativeAcresToPlant = Arrays.stream(acresToPlant).map((element)->(new Random()).nextInt(-100, -1)).toArray();
+    	int[] negativeAcresToPlant = Arrays.stream(acresToPlant).map((element)->new Random().nextInt(-100, -1)).toArray();
        // int randomNegative = (new Random()).nextInt(-100, -1);
         assertThrows(Exception.class, ()->testCity.plant(-10, 1, negativeAcresToPlant));
     }

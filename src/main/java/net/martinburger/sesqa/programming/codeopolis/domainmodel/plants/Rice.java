@@ -5,7 +5,7 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * The `Rice` class represents a type of plant that is used for harvesting rice.
  * It extends the `Plant` class and overrides the `pestInfestation` and `diseaseOutbreak` methods.
  */
-public class Rice extends AbstractSummerGrain {
+public class Rice extends AbstractSummerGrain implements Rottable {
     private final float deliaFlyReduction = 0.3f;
     private final float deliaFlyOutsideThresholdReduction = 0.4f;
     private final float barleyGoutFlyReduction = 0.3f;
@@ -16,7 +16,7 @@ public class Rice extends AbstractSummerGrain {
      * Creates a new instance of the `Rice` class with default values.
      */
     public Rice() {
-        super(6, 0.1f, 0.3f, 0.5f);
+        super(6, 0.1f, 0.3f, 0.5f, 1, 0.02f, 2.0f);
     }
 
     /**
@@ -104,5 +104,20 @@ public class Rice extends AbstractSummerGrain {
      */
     public float getLeafDroughtRedcution() {
         return leafDroughtRedcution;
+    }
+
+    @Override
+    public float getRotAfterFirstYear() {
+        return 0;
+    }
+
+    @Override
+    public float getRotIncrease() {
+        return 0;
+    }
+
+    @Override
+    public int getLongevity() {
+        return 0;
     }
 }

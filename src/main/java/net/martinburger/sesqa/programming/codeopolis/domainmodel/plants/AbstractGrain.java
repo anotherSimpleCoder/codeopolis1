@@ -9,28 +9,33 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * It contains information about the base yield, whether it is a winter plant, and various factors that affect its growth.
  */
 public abstract class AbstractGrain {
-    private int baseYield;
+    private final int baseYield;
     private final float allowedTemperatureOffset;
     private final float conditionsReduction;
     private final float droughtReduction;
     private final float optimalTemperature;
     private int yield;
+    protected final int longevity;
+    protected final float rotAfterFirstYear;
+    protected final float rotIncrease;
 
     /**
      * Constructs a new `Plant` object with the given parameters.
      *
      * @param baseYield the base yield of the plant
-     * @param winterPlant whether the plant is a winter plant
      * @param allowedTemperatureOffset the allowed temperature offset for the plant
      * @param conditionsReduction the reduction factor for the plant based on soil conditions
      * @param droughtReduction the reduction factor for the plant based on drought conditions
      */
-    protected AbstractGrain(int baseYield, boolean winterPlant, float allowedTemperatureOffset, float conditionsReduction, float droughtReduction, float optimalTemperature) {
+    protected AbstractGrain(int baseYield, float allowedTemperatureOffset, float conditionsReduction, float droughtReduction, float optimalTemperature, int longevity, float rotAfterFirstYear, float rotIncrease) {
         this.baseYield = baseYield;
         this.allowedTemperatureOffset = allowedTemperatureOffset;
         this.conditionsReduction = conditionsReduction;
         this.droughtReduction = droughtReduction;
         this.optimalTemperature = optimalTemperature;
+        this.longevity = longevity;
+        this.rotAfterFirstYear = rotAfterFirstYear;
+        this.rotIncrease = rotIncrease;
     }
 
     public static int[] getDistributedGrainSet(int bushels) {
@@ -160,5 +165,9 @@ public abstract class AbstractGrain {
      */
     protected void setYield(int yield) {
         this.yield = yield;
+    }
+
+    public int getYield() {
+        return yield;
     }
 }

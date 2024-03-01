@@ -21,7 +21,7 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Rye;
 import net.martinburger.sesqa.programming.codeopolis.domainmodel.plants.Wheat;
 import net.martinburger.sesqa.programming.codeopolis.utils.TurnResult;
 
-public class City implements CityState {
+public class City {
     private String name;
     private int bushels;
     private int acres;
@@ -50,9 +50,27 @@ public class City implements CityState {
         this.pastYears = 0;
         this.harvest = new Harvest(0, 0);
         this.depot = new Depot(capacity) {{
-        	this.store(new Harvest(bushels, -1));
+        	this.store(new Harvest(bushels, -1, new Wheat()));
         }};
         
+        planted[0] = new Wheat();
+        planted[1] = new Barley();
+        planted[2] = new Rye();
+        planted[3] = new Millet();
+        planted[4] = new Corn();
+        planted[5] = new Rice();
+    }
+
+    public City(CityState cityState) {
+        this.name = cityState.name();
+        this.acres = cityState.acres();
+        this.bushels = cityState.bushels();
+        this.population = cityState.population();
+        this.bushelsFed = 0;
+        this.planted = new AbstractGrain[6];
+        this.pastYears = cityState.pastYears();
+        this.harvest = new Harvest(0, this.pastYears);
+
         planted[0] = new Wheat();
         planted[1] = new Barley();
         planted[2] = new Rye();
@@ -186,15 +204,16 @@ public class City implements CityState {
         int newHarvest = this.calculateNewHarvest(random.nextFloat(0.1f, 1.0f) ,harvestFactor, Conditions.generateRandomConditions());
         int eatenByRats = this.calculateEatenByRats(random.nextFloat(0, rateInfestation));
 
-        // Apply them to city
-        this.depot.decay();
-        this.pastYears += 1;
-        this.population += (newResidents - starvation);
-        
         //Change this to depot
+        this.depot.decay();
+        this.population += (newResidents - starvation);
+
         this.bushels = (this.bushels + newHarvest) - eatenByRats;
-        this.harvest = new Harvest(newHarvest, 0);
+        this.harvest = new Harvest(newHarvest, this.pastYears);
         this.depot.store(harvest);
+
+        // Apply them to city
+        this.pastYears += 1;
 
         // Return turn result
         return new TurnResult(this.name, this.pastYears, newResidents, newHarvest, this.population, this.bushels,
@@ -246,17 +265,18 @@ public class City implements CityState {
      * @return The new harvest amount.
      */
     public int calculateNewHarvest(float z, float harvestFactor, Conditions grainConditions) {
-    	for(AbstractGrain g: this.planted) {
+    	float newHarvest = 0;
+        for(AbstractGrain g: this.planted) {
     		g.grow(grainConditions);
     		g.drought(grainConditions);
     		g.pestInfestation(grainConditions);
     		g.diseaseOutbreak(grainConditions);
-    		
+    		newHarvest += g.harvest();
     	}
     	
     	//Calculate harvest
     	float harvestRate = z * harvestFactor;
-        float newHarvest = (float) (this.getPlantedAcres()) * harvestRate;
+        newHarvest *= harvestRate;
         
         return Math.round(newHarvest);
     }
@@ -264,7 +284,7 @@ public class City implements CityState {
     /**
      * Calculates the amount of grain eaten by rats based on the given infestation rate.
      * 
-     * @param rateInfestation The rate of infestation affecting stored bushels.
+     * @param ratPercentage The rate of infestation affecting stored bushels.
      * @return The amount of grain eaten by rats.
      */
     public int calculateEatenByRats(float ratPercentage) {
@@ -334,4 +354,15 @@ public class City implements CityState {
     public void setBushelsFed(int bushelsFed) {
 		this.bushelsFed = bushelsFed;
 	}
+
+    public CityState getCityState() {
+        return new CityState(
+            this.name,
+            this.acres,
+            this.getBushels(),
+            this.getPlantedAcres(),
+            this.population,
+            this.pastYears
+        );
+    }
 }

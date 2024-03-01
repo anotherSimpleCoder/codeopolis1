@@ -6,7 +6,7 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * This class represents a barley plant.
  * It contains methods to simulate pest infestation and disease outbreak.
  */
-public class Barley extends AbstractWinterGrain {
+public class Barley extends AbstractWinterGrain implements Rottable {
     private final float barleyGoutFlyReduction = 0.4f;
     private final float fusariumReduction = 0.25f;
 
@@ -14,7 +14,7 @@ public class Barley extends AbstractWinterGrain {
      * Initializes a new instance of the Barley class.
      */
     public Barley() {
-        super(4, 0.25f, 0.2f, 0.2f);
+        super(4, 0.25f, 0.2f, 0.2f, 2, 0.02f, 0.03f);
     }
 
     /**
@@ -65,5 +65,20 @@ public class Barley extends AbstractWinterGrain {
      */
     public float getFusariumReduction() {
         return fusariumReduction;
+    }
+
+    @Override
+    public int getLongevity() {
+        return this.longevity;
+    }
+
+    @Override
+    public float getRotAfterFirstYear() {
+        return this.rotAfterFirstYear;
+    }
+
+    @Override
+    public float getRotIncrease() {
+        return this.rotIncrease;
     }
 }

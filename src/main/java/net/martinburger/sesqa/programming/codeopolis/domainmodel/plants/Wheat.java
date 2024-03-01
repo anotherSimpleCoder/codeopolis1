@@ -5,7 +5,7 @@ import net.martinburger.sesqa.programming.codeopolis.domainmodel.Conditions;
  * The `Wheat` class represents a type of plant that is used for harvesting wheat.
  * It extends the `Plant` class and overrides the `pestInfestation` and `diseaseOutbreak` methods.
  */
-public class Wheat extends AbstractWinterGrain {
+public class Wheat extends AbstractWinterGrain implements Rottable {
     private final float fritFlyReduction = 0.25f;
     private final float barleyGoutFlyReduction = 0.3f;
 
@@ -17,7 +17,7 @@ public class Wheat extends AbstractWinterGrain {
      * Creates a new instance of the `Wheat` class with default values.
      */
     public Wheat() {
-        super(6, 0.1f, 0.3f, 0.5f);
+        super(6, 0.1f, 0.3f, 0.5f, 1, 0.02f, 2.0f);
     }
 
     /**
@@ -105,5 +105,20 @@ public class Wheat extends AbstractWinterGrain {
      */
     public float getPowderyMildrewReduction() {
         return powderyMildrewReduction;
+    }
+
+    @Override
+    public float getRotAfterFirstYear() {
+        return 0;
+    }
+
+    @Override
+    public float getRotIncrease() {
+        return 0;
+    }
+
+    @Override
+    public int getLongevity() {
+        return 0;
     }
 }
